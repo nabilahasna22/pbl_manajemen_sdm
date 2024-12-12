@@ -1,0 +1,706 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: HomeScreen(),
+      debugShowCheckedModeBanner: false, // Hide debug banner
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Stack(
+            children: [
+              ClipPath(
+                clipper: CurveClipper(),
+                child: Container(
+                  color: Colors.yellow[700],
+                  height: 200,
+                ),
+              ),
+              Positioned(
+                left: 16.0,
+                top: 60.0,
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundImage:
+                          AssetImage('assets/profile.jpg'), // Gambar profil
+                      radius: 40,
+                    ),
+                    SizedBox(width: 16),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Nabila Hasna',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          '1234567890',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                right: 16.0,
+                top: 60.0,
+                child: IconButton(
+                  icon: Icon(Icons.notifications, color: Colors.white),
+                  onPressed: () {},
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 16.0),
+          Text(
+            'Menu Kegiatan',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.yellow[700],
+            ),
+          ),
+          SizedBox(height: 16.0),
+          Expanded(
+            child: ListView(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => KegiatanTerprogramPage()),
+                    );
+                  },
+                  child: ActivityCard(
+                    imageUrl: 'assets/terprogram.png',
+                    title: 'Terprogram',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => KegiatanNonProgramPage()),
+                    );
+                  },
+                  child: ActivityCard(
+                    imageUrl: 'assets/non_program.png',
+                    title: 'Non Program',
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => KegiatanNonJTIPage()),
+                    );
+                  },
+                  child: ActivityCard(
+                    imageUrl: 'assets/non_jti.png',
+                    title: 'Non JTI',
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.yellow[700],
+        unselectedItemColor: Colors.grey,
+        currentIndex: 0,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Discover',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.bar_chart),
+            label: 'Insight',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+// KegiatanTerprogramPage class
+class KegiatanTerprogramPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          "Kegiatan Terprogram",
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.yellow,
+        iconTheme: IconThemeData(color: Colors.black),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: ListView(
+          children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ActivityDetailPage()),
+                );
+              },
+              child: ActivityDetailCard(
+                title: "Skripsi",
+                points: 8,
+                status: "Draft",
+                details: ["PIC (5 Pts)", "Jurusan (2 Pts)", "< 3 Hari (1 Pts)"],
+                buttonText: "Edit",
+                statusColor: Colors.grey,
+                buttonColor: Colors.blue,
+                imageUrl: 'assets/menuterprogram.png',
+              ),
+            ),
+            SizedBox(height: 16),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SDMActivityDetailPage()), // Navigate to SDM Activity Detail Page
+                );
+              },
+            
+            child: ActivityDetailCard(
+              title: "SDM",
+              points: 5,
+              status: "Approve",
+              details: [
+                "Anggota (0 Pts)",
+                "Jurusan (2 Pts)",
+                "< 3 Hari (1 Pts)"
+              ],
+              buttonText: "Edit",
+              statusColor: Colors.green,
+              buttonColor: Colors.blue,
+              imageUrl: 'assets/menuterprogram.png',
+            ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Activity Detail Page for Skripsi
+class ActivityDetailPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Directly navigate to ProgramActivityPage without creating a new MaterialApp
+    return Skripsi();
+  }
+}
+
+class Skripsi extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Detail Kegiatan'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.amber),
+          
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16.0),
+                child: Image.asset(
+                  'assets/skripsi.png', // Replace with your image asset
+                  width: double.infinity,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Skripsi',
+                style: TextStyle(
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
+                  color:Colors.amber,
+                ),
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  _DateButton('18 Mei 2025'),
+                  SizedBox(width: 10),
+                  _JurusanButton('Jurusan Teknologi Informasi'),
+                ],
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Pelaksanaan sidang skripsi melibatkan koordinasi berbagai '
+                'aspek mulai dari penjadwalan hingga penyediaan fasilitas. '
+                'Kegiatan ini mencakup penentuan jadwal yang sesuai bagi '
+                'mahasiswa, dosen pembimbing, dan penguji, serta pengaturan '
+                'kebutuhan teknis seperti ruang sidang, perangkat presentasi, '
+                'dan dokumen administrasi. Selain itu, semua pihak yang '
+                'terlibat harus mendapatkan informasi dan materi sidang '
+                'dengan tepat waktu untuk memastikan proses berjalan lancar '
+                'dan efisien.',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 24),
+              Text(
+                'Pelaksana',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.amber,
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _ParticipantButton('Nabila Hasna'),
+                  SizedBox(width: 25),
+                  _ParticipantButton('PIC'),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _DateButton(String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _JurusanButton(String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+    Widget _ParticipantButton(String name) {
+    return OutlinedButton(
+      onPressed: () {},
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        side: BorderSide(color: Colors.amber),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      ),
+      child: Text(
+        name,
+        style: TextStyle(color: Colors.amber, fontSize: 16),
+      ),
+    );
+  }
+}
+
+
+class SDMActivityDetailPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text('Detail Kegiatan'),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        titleTextStyle: TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: Colors.amber),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                'assets/menuterprogram.png', // Image for SDM activity
+                height: 180,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text(
+              "SDM Activity",
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.yellow[700]),
+            ),
+           SizedBox(height: 8),
+              Row(
+                children: [
+                  _DateButton('20 Mei 2025'),
+                  SizedBox(width: 10),
+                  _JurusanButton('Jurusan Teknologi Informasi'),
+                ],
+              ),
+            SizedBox(height: 16),
+            Text(
+              "Kegiatan ini melibatkan pengelolaan sumber daya manusia yang efektif untuk mendukung pelaksanaan sidang skripsi. Hal ini mencakup pemilihan anggota tim, penugasan peran, dan pelatihan untuk memastikan semua pihak siap dan terkoordinasi dengan baik.",
+              style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black87,
+              ),
+            ),
+            SizedBox(height: 24),
+              Text(
+                'Pelaksana',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.amber,
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _ParticipantButton('Nabila Hasna'),
+                  SizedBox(width: 25),
+                  _ParticipantButton('PIC'),
+                ],
+              ),
+            ],
+          ),
+      ),
+    );    
+  }
+
+  Widget _DateButton(String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  Widget _JurusanButton(String text) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.amber,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        text,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+    Widget _ParticipantButton(String name) {
+    return OutlinedButton(
+      onPressed: () {},
+      style: OutlinedButton.styleFrom(
+        backgroundColor: Colors.white,
+        side: BorderSide(color: Colors.amber),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      ),
+      child: Text(
+        name,
+        style: TextStyle(color: Colors.amber, fontSize: 16),
+      ),
+    );
+  }
+}
+  
+
+
+// Updated ActivityDetailCard class to handle detailed activity information
+class ActivityDetailCard extends StatelessWidget {
+  final String title;
+  final int points;
+  final String status;
+  final List<String> details;
+  final String buttonText;
+  final Color statusColor;
+  final Color buttonColor;
+  final String imageUrl;
+
+  const ActivityDetailCard({
+    required this.title,
+    required this.points,
+    required this.status,
+    required this.details,
+    required this.buttonText,
+    required this.statusColor,
+    required this.buttonColor,
+    required this.imageUrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      color: Colors.yellow[100],
+      child: Row(
+        children: [
+          // Image on the left
+          ClipRRect(
+            borderRadius: BorderRadius.horizontal(left: Radius.circular(12)),
+            child: Image.asset(
+              imageUrl,
+              height: 120,
+              width: 120,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(width: 16),
+          // Text content on the right
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      // Row for status and points button
+                      Row(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: statusColor,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              status,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                          SizedBox(width: 8),
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: buttonColor,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                            ),
+                            child: Text(
+                              "$points Pts",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 8),
+                  // Details as Chips
+                  Wrap(
+                    spacing: 8,
+                    children: details.map((detail) {
+                      return Chip(
+                        label:
+                            Text(detail, style: TextStyle(color: Colors.black)),
+                        backgroundColor: Colors.white,
+                      );
+                    }).toList(),
+                  ),
+                  SizedBox(height: 16),
+                  // Edit Button
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: buttonColor,
+                    ),
+                    child: Text(buttonText),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ActivityCard extends StatelessWidget {
+  final String imageUrl;
+  final String title;
+
+  const ActivityCard({
+    required this.imageUrl,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      child: Container(
+        height: 150,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16.0),
+          image: DecorationImage(
+            image: AssetImage(imageUrl),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.yellow.withOpacity(0.5),
+              BlendMode.dstATop,
+            ),
+          ),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class KegiatanNonProgramPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Kegiatan Non Program')),
+      body: Center(child: Text('Daftar Kegiatan Non Program')),
+    );
+  }
+}
+
+class KegiatanNonJTIPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Kegiatan Non JTI')),
+      body: Center(child: Text('Daftar Kegiatan Non JTI')),
+    );
+  }
+}
+
+class CurveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = Path();
+    path.lineTo(0, size.height - 50);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height - 50);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
+  }
+}

@@ -1,0 +1,35 @@
+name: pbl_manajemen_sdm
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  file_picker: ^5.0.0  # Tambahkan dependency file_picker di sini
+  dio: ^5.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+   - assets/terprogram.png
+   - assets/non_program.png
+   - assets/terprogram.png
+   - assets/profile.jpg
+   - assets/skripsi.jpeg
+
+  fonts:
+    - family: Michroma
+      fonts:
+        - asset: fonts/Michroma.ttf

@@ -1,0 +1,206 @@
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Kegiatan App',
+      theme: ThemeData(
+        primarySwatch: Colors.yellow,
+      ),
+      // Menggunakan named routes untuk navigasi
+      initialRoute: '/',
+      routes: {
+        '/': (context) => HomeScreen(), // Rute ke layar Home
+        '/main': (context) => ScheduleScreen(), // Rute ke layar Schedule
+      },
+    );
+  }
+}
+
+class HomeScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.yellow[700],
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage('assets/avatar.png'),
+              radius: 18,
+            ),
+            SizedBox(width: 10),
+            Text(
+              'Nabila Hasna',
+              style: TextStyle(color: Colors.white),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications, color: Colors.white),
+            onPressed: () {},
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Dialog Dosen Mahasiswa',
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 10),
+            Text(
+              'Dialog Dosen dan Mahasiswa Jurusan Teknologi Informasi Polinema adalah sebuah forum terbuka...',
+              style: TextStyle(color: Colors.grey[700]),
+            ),
+            SizedBox(height: 20),
+            memberSection(),
+            SizedBox(height: 20),
+            activityTable(),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.schedule),
+            label: 'Schedule',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.insights),
+            label: 'Insight',
+          ),
+        ],
+        onTap: (index) {
+          if (index == 1) {
+            // Menggunakan Navigator.pushNamed untuk navigasi ke layar kedua
+            Navigator.pushNamed(context, '/second');
+          }
+        },
+      ),
+    );
+  }
+
+  Widget memberSection() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        memberAvatar('assets/shani.png', 'Shani', '197823', 'Ketua'),
+        memberAvatar('assets/mutifa.png', 'Mutifa', '197823', 'Anggota'),
+        memberAvatar('assets/agus.png', 'Agus', '197823', 'Anggota'),
+        memberAvatar('assets/devina.png', 'Devina', '197823', 'Anggota'),
+        memberAvatar('assets/dinda.png', 'Dinda', '197823', 'Anggota'),
+        memberAvatar('assets/heru.png', 'Heru', '197823', 'Anggota'),
+      ],
+    );
+  }
+
+  Widget memberAvatar(String imagePath, String name, String id, String role) {
+    return Column(
+      children: [
+        CircleAvatar(
+          backgroundImage: AssetImage(imagePath),
+          radius: 25,
+        ),
+        SizedBox(height: 5),
+        Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(id, style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+        Text(role, style: TextStyle(color: Colors.grey[600], fontSize: 12)),
+      ],
+    );
+  }
+
+  Widget activityTable() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Kegiatan',
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 10),
+        Table(
+          border: TableBorder.all(),
+          columnWidths: {
+            0: FlexColumnWidth(2),
+            1: FlexColumnWidth(1),
+            2: FlexColumnWidth(1),
+          },
+          children: [
+            TableRow(children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Proposal', style: TextStyle(fontSize: 16)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Complete', style: TextStyle(fontSize: 16)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('5 Januari 2024', style: TextStyle(fontSize: 16)),
+              ),
+            ]),
+            TableRow(children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Rapat 1', style: TextStyle(fontSize: 16)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Complete', style: TextStyle(fontSize: 16)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('5 Februari 2024', style: TextStyle(fontSize: 16)),
+              ),
+            ]),
+            TableRow(children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Rapat 2', style: TextStyle(fontSize: 16)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('Complete', style: TextStyle(fontSize: 16)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text('12 Februari 2024', style: TextStyle(fontSize: 16)),
+              ),
+            ]),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class ScheduleScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Schedule'),
+      ),
+      body: Center(
+        child: Text('This is the Schedule Screen'),
+      ),
+    );
+  }
+}
